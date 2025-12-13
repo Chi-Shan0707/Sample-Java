@@ -1,0 +1,98 @@
+# Global OS/editor artifacts
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# VS Code
+.vscode/
+.history/
+
+# JetBrains/IntelliJ IDEA
+.idea/
+*.iml
+
+# Java (Maven/Gradle/Eclipse/NetBeans)
+/target/
+/build/
+/bin/
+/out/
+*.class
+*.log
+.gradle/
+gradle-app.setting
+.mvn/
+.mvn/wrapper/
+.project
+.classpath
+.settings/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+# Python & Jupyter
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+.venv/
+venv/
+env/
+
+# LaTeX auxiliaries
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.log
+*.lot
+*.lof
+*.out
+*.toc
+*.synctex.gz
+*.synctex(busy)
+*.run.xml
+*.nav
+*.snm
+*.vrb
+latex.out/
+latexmk.out/
+_texbuild/
+# Keep PDFs; comment to ignore
+# *.pdf
+
+# Misc
+*.env
+.env*
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+*.bak
+*.tmp
+~*
+node_modules/
+
+# Project-specific (workspace paths)
+UCB-CS170/hws/.ipynb_checkpoints/
+UCB-CS170/Latex/*.aux
+UCB-CS170/Latex/*.log
+UCB-CS170/Latex/*.toc
+UCB-CS170/Latex/*.out
+UCB-CS170/Latex/*.synctex.gz
+UCB-CS170/Latex/*.bbl
+UCB-CS170/Latex/*.blg
+UCB-CS170/Latex/*.fdb_latexmk
+UCB-CS170/Latex/*.fls
