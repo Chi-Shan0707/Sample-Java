@@ -64,12 +64,19 @@ public class NetworkFlow {
 	public static void main(String[] args) {
 		// 创建一个有 4 个顶点的图
 		NetworkFlow g = new NetworkFlow(4);
-		g.addEdge(0, 1, 3);
-		g.addEdge(0, 2, 2);
-		g.addEdge(1, 2, 5);
-		g.addEdge(1, 3, 2);
-		g.addEdge(2, 3, 3);
-
+		g.addEdge(0, 1, 20);
+		g.addEdge(1, 2, 20);
+		g.addEdge(2, 3, 20);
+		g.addEdge(0, 2, 10);
+		g.addEdge(1, 3, 10);
+/*
+ 图示 一个针对贪心的最典型的反例
+        -> 1 -----\
+    (20)   \       (10)
+ 0         \(20)       --> 3
+  (10)       \>   /(20)
+         ->  2
+*/
 		int s = 0; // 源点
 		int t = 3; // 汇点
 		System.out.println("最大流: " + g.maxFlow(s, t));
