@@ -125,3 +125,5 @@ when terminate, the graph shows ST-CUT: in the last iteration, s cannot reach t,
 > Karp,  Dinic,  Lee Sidford *O(m sqrt(n) log u)*
 
 
+## Relate NetworkFlow to LP
+start from 47min[https://www.bilibili.com/video/BV1mu1CYRESn?spm_id_from=333.788.videopod.sections&vd_source=de61571668b4f9b7a6cbfb72c2ad3a42&p=15]
