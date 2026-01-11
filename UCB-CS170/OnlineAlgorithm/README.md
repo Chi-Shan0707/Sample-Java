@@ -86,7 +86,7 @@ Let's consider two special scenarios.<br>
 ***
 **Multiplicative Weights Algorithm**<br>
 $\rightarrow$ *Weghted majority algorithm*
-- Initalized weights $w_{1,1}=...=w_{n,1}=1$ for each expert
+- Initalized weights $w_1^{(1)}=...=w_n^{(1)}=1$ for each expert
 - For $t=1,...,T$ ：
 1. Output **weighted majority**
 2. Set the weights for $t+1$:
@@ -95,9 +95,9 @@ $\rightarrow$ *Weghted majority algorithm*
 let loss = 0 or 1, so loss_tally is equivalent to mistake_number
 ```
 $$
-w_{i,t+1} := \begin{cases}
-(1-\epsilon)\,w_{i,t}, & \text{if expert }i\text{ errs at round }t,\\
-w_{i,t}, & \text{if expert }i\text{ is correct at round }t.
+w_i^{(t+1)} := \begin{cases}
+(1-\epsilon)\,w_i^{(t)}, & \text{if expert }i\text{ errs at round }t,\\
+w_i^{(t)}, & \text{if expert }i\text{ is correct at round }t.
 \end{cases}
 $$
 
@@ -110,12 +110,12 @@ $$
 
 Let $OPT$ denote the minimal number of mistakes made by any expert. Let that expert be $E_{id}$. Then its weight at time $t$ satisfies
 $$
-w_{id,t} \ge (1-\epsilon)^{OPT},\quad \forall t.
+w_{id}^{(t)} \ge (1-\epsilon)^{OPT},\quad \forall t.
 $$
 
 Hence
 $$
-W^{(t)} \ge w_{id,t} \ge (1-\epsilon)^{OPT},\quad \forall t.
+W^{(t)} \ge w_{id}^{(t)} \ge (1-\epsilon)^{OPT},\quad \forall t.
 $$
 > **Note :**<br>In Weighted-Majority-With-$\epsilon$ algo, <br>we don't assume there is an expert who makes $\le m$ mistakes, and we don't know who is $E_{id}$ in advance —— it's just hindsight<br>
 
@@ -224,7 +224,7 @@ $$
 
 **Randomized Weighted Majority (w/ parameter $\epsilon$)**
 
-- Initialize weights $w_1^{(1)}=\cdots=w_n^{(1)}=1$.
+- Initialize weights $w_1^{(0)}=\cdots=w_n^{(0)}=1$.
 - For $t=1,\dots,T$:
   1. Let $W^{(t)}=\sum_{i=1}^n w_i^{(t)}$.
   2. Randomly predict bit $b\in\{0,1\}$ with probability
@@ -290,9 +290,8 @@ L^* := \sum_{t=1}^T \ell_{id}^{(t)}.
 $$
 
 **Lower bound (best expert)**
-
 $$
-W^{(T+1)} \ge w_{i^*}^{(T+1)} = (1-\epsilon)^{L^*}.
+W^{(T+1)} \ge w_{id}^{(T+1)} = (1-\epsilon)^{L^*}.
 $$
 
 **Upper bound (from expected loss)**
@@ -349,3 +348,118 @@ $$
 R := L - L^* \le 2\sqrt{T\ln n}.
 $$
 
+***
+
+## Zero-Sum Problem
+
+### 1. Basic Setup
+
+#### Core Definitions
+
+- **Payoff Matrix**: Let  $A \in \mathbb{R}^{m \times n}$  be the payoff matrix for Player 1 (P1). For pure strategies  $i$  (P1) and  $j$  (P2), P1’s gain =  $A_{ij}$ , P2’s gain =  $-A_{ij}$  (zero-sum property).
+
+- **Mixed Strategies**: Probability vectors (in simplex  $\Delta$ ,  $x_i \geq 0, \sum x_i = 1$ ):
+
+    - P1’s strategy:  $x^{(t)} = (x_1^{(t)}, ..., x_m^{(t)}) \in \Delta_m$  (prob of choosing pure strategy  $i$  at step  $t$ )
+
+    - P2’s strategy:  $y^{(t)} = (y_1^{(t)}, ..., y_n^{(t)}) \in \Delta_n$  (prob of choosing pure strategy  $j$  at step  $t$ )
+
+- **Loss Vectors**:
+
+    - P1’s loss vector:  $\ell_1^{(t)} = -A y^{(t)}$ 
+
+    - P2’s loss vector:  $\ell_2^{(t)} = A^T x^{(t)}$ 
+
+- **Expected Payoff (Step** $t$  **)**: <br> $(x^{(t)})^T A y^{(t)} = \sum_{i=1}^m \sum_{j=1}^n x_i^{(t)} A_{ij} y_j^{(t)}$ 
+
+### 2. Algorithm Interaction (Both Players Use Multiplicative Weights)
+
+#### Steps for  $t = 1, ..., T$ 
+
+1. **Initialize Weights**:  $w_1^{(1)} = \mathbf{1} \in \mathbb{R}^m$ ,  $w_2^{(1)} = \mathbf{1} \in \mathbb{R}^n$ 
+
+2. **Generate Strategies**:
+
+    -  $x_i^{(t)} = \frac{w_{1,i}^{(t)}}{\sum_{k=1}^m w_{1,k}^{(t)}}$ 
+
+    -  $y_j^{(t)} = \frac{w_{2,j}^{(t)}}{\sum_{k=1}^n w_{2,k}^{(t)}}$ 
+
+3. **Observe Losses**: P1 gets  $\ell_1^{(t)}$ , P2 gets  $\ell_2^{(t)}$ 
+
+4. **Update Weights**:
+
+    -  $w_{1,i}^{(t+1)} = w_{1,i}^{(t)} \cdot (1-\epsilon)^{\ell_{1,i}^{(t)}}$ 
+
+    -  $w_{2,j}^{(t+1)} = w_{2,j}^{(t)} \cdot (1-\epsilon)^{\ell_{2,j}^{(t)}}$ 
+
+### 3. Regret Bounds
+
+#### Regret Definition
+
+- P1’s regret:  $R_1^T = \sum_{t=1}^T (x^{(t)})^T \ell_1^{(t)} - \min_{x \in \Delta_m} \sum_{t=1}^T x^T \ell_1^{(t)}$ 
+
+- P2’s regret:  $R_2^T = \sum_{t=1}^T (y^{(t)})^T \ell_2^{(t)} - \min_{y \in \Delta_n} \sum_{t=1}^T y^T \ell_2^{(t)}$ 
+
+#### Bounds (Optimal  $\epsilon = \sqrt{\frac{\ln n}{T}}$ )
+
+
+$$
+R_1^T = O\left(\sqrt{T \ln m}\right), \quad R_2^T = O\left(\sqrt{T \ln n}\right)
+$$
+
+Average regret:  $\frac{R_1^T}{T} = O\left(\sqrt{\frac{\ln m}{T}}\right) \to 0$  as  $T \to \infty$ 
+
+### 4. Minimax Theorem Proof
+
+#### Step 1: Average Strategies
+
+Define time-averaged strategies (still in  $\Delta$ ):
+
+
+$$
+\overline{x} = \frac{1}{T}\sum_{t=1}^T x^{(t)}, \quad \overline{y} = \frac{1}{T}\sum_{t=1}^T y^{(t)}
+$$
+
+#### Step 2: Rewrite Regret Bounds
+
+- P1’s bound (after simplification):
+
+ $\max_{x \in \Delta_m} x^T A \overline{y} - \frac{1}{T}\sum_{t=1}^T (x^{(t)})^T A y^{(t)} = O\left(\sqrt{\frac{\ln m}{T}}\right)$ 
+
+- P2’s bound (after simplification):
+
+ $\frac{1}{T}\sum_{t=1}^T (x^{(t)})^T A y^{(t)} - \min_{y \in \Delta_n} \overline{x}^T A y = O\left(\sqrt{\frac{\ln n}{T}}\right)$ 
+
+### Step 3: Combine Bounds & Weak Duality
+
+Add the two bounds:
+
+$$
+\max_{x} x^T A \overline{y} - \min_{y} \overline{x}^T A y = O\left(\sqrt{\frac{\ln \max(m,n)}{T}}\right)
+$$
+
+
+By **weak duality**:  $\min_y \max_x x^T A y \geq \max_x \min_y x^T A y \geq 0$ 
+
+### Step 4: Strong Duality (Minimax Theorem)
+
+The difference  $\min_y \max_x x^T A y - \max_x \min_y x^T A y$  is independent of  $T$ . As  $T \to \infty$ , the right-hand side tends to 0. Thus:
+
+$$
+
+\min_{y \in \Delta_n} \max_{x \in \Delta_m} x^T A y = \max_{x \in \Delta_m} \min_{y \in \Delta_n} x^T A y
+
+$$
+
+### 5. Key Conclusion
+
+- **Von Neumann’s Minimax Theorem**: For two-player zero-sum games, there exist optimal mixed strategies  $x^* \in \Delta_m$  and  $y^* \in \Delta_n$  such that the game has a unique "value"  $v = (x^*)^T A y^*$ .
+
+- **Algorithm Value**: The multiplicative weights algorithm learns near-optimal strategies online (no prior knowledge of  $A$ ), with average regret vanishing as  $T \to \infty$ .
+
+
+
+
+***
+
+[Record](https://www.bilibili.com/video/BV1mu1CYRESn?spm_id_from=333.788.videopod.sections&vd_source=de61571668b4f9b7a6cbfb72c2ad3a42&p=17)
