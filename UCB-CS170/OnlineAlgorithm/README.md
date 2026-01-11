@@ -1,13 +1,12 @@
 # Online Algorithm for  Online Decision Making
 <P>
 What is online decision making?<br> Suppose we have a decision that we’re trying to make, and we have n experts thathave conflicting opinions. Who do we trust, and which decision should we make? Here, in each successive trial, weknow the history up until the current trial (that is, we know nothing in trial 1, but in trial 2, we know the results fromtrial 1, etc.).
-<p>
 
 ***
 
 ## Experts problems 
 
-***
+
 
 ### Example
 <p>
@@ -85,8 +84,8 @@ Let's consider two special scenarios.<br>
 
 
 ***
-
-**Weghted majority algorithm**
+**Multiplicative Weights Algorithm**<br>
+$\rightarrow$ *Weghted majority algorithm*
 - Initalized weights $w_{1,1}=...=w_{n,1}=1$ for each expert
 - For $t=1,...,T$ ：
 1. Output **weighted majority**
@@ -102,7 +101,7 @@ w_{i,t}, & \text{if expert }i\text{ is correct at round }t.
 \end{cases}
 $$
 
-> Fact :<br> Denote $W^{(t)} $= total weight of experts at time $t$<br>Suppose WM-algo made a mistake at time t, then $W^{(t+1)} \le (1-\frac{\epsilon}{2}) W^{(t)}$
+> **Fact :**<br> Denote $W^{(t)} $= total weight of experts at time $t$<br>Suppose WM-algo made a mistake at time t, then $W^{(t+1)} \le (1-\frac{\epsilon}{2}) W^{(t)}$
 
 Let $M$ denote the number of mistakes made by this algo. So we have<br>
 $$
@@ -118,7 +117,7 @@ Hence
 $$
 W^{(t)} \ge w_{id,t} \ge (1-\epsilon)^{OPT},\quad \forall t.
 $$
-> Note: <br>In Weighted-Majority-With-$\epsilon$ algo, <br>we don't assume there is an expert who makes $\le m$ mistakes, and we don't know who is $E_{id}$ in advance —— it's just hindsight<br>
+> **Note :**<br>In Weighted-Majority-With-$\epsilon$ algo, <br>we don't assume there is an expert who makes $\le m$ mistakes, and we don't know who is $E_{id}$ in advance —— it's just hindsight<br>
 
 At time $T+1$ we get
 $$
@@ -212,7 +211,7 @@ We can construct $n=2$ $\epsilon = \frac{1}{2}$
 - **Regret**: $R = M - L^* = 5 - 2 = 3 $  
 
 
-> Theorem:<br> Any deterministic algorithm can't beat 2!
+> **Theorem :**<br> Any deterministic algorithm can't beat 2!
 
 $$
 \forall  algo \in \set{\text{deterministic algorithms}}, \exists \text{adversary such that } L \geq (2-O \left (1)\right )L^*
@@ -220,6 +219,133 @@ $$
 
 ***
 
-### Improve by Randonmizing
+### Improve by Randomizing
 
+
+**Randomized Weighted Majority (w/ parameter $\epsilon$)**
+
+- Initialize weights $w_1^{(1)}=\cdots=w_n^{(1)}=1$.
+- For $t=1,\dots,T$:
+  1. Let $W^{(t)}=\sum_{i=1}^n w_i^{(t)}$.
+  2. Randomly predict bit $b\in\{0,1\}$ with probability
+	  $$\Pr[b]=\frac{1}{W^{(t)}}\sum_{i=1}^n w_i^{(t)}\cdot\mathbf{1}[\text{expert }i\text{ predicts }b].$$
+  3. After the true outcome is revealed, update each expert's weight:
+	 $$w_{i,t+1} := \begin{cases}(1-\epsilon)\,w_{i,t}, & \text{if expert }i\text{ errs at round }t,\\w_{i,t}, & \text{if expert }i\text{ is correct at round }t.\end{cases}
+$$
+
+> **Remarks:** the adversary cannot predict the algorithm's internal randomness, so randomization prevents certain worst-case cycles encountered by deterministic "follow-the-leader" strategies.
+
+> **Theorem.** Let $M$ be the number of mistakes made by Randomized Weighted Majority. Then
+$$
+\mathbb{E}[M] \le (1+\epsilon)\,OPT + \frac{\log_2 n}{\epsilon}.
+$$
+
+Sketch: mirror the multiplicative-weights potential argument. In expectation, when the algorithm's randomized prediction errs the total weight decreases by a constant multiplicative factor (about $1-\epsilon/2$), while the best expert's weight decreases by at most $(1-\epsilon)^{OPT}$. Rearranging yields the displayed bound.
+
+Pick $\epsilon=\sqrt{\dfrac{\log_2 n}{T}}$. Then
+$$
+\mathbb{E}[M] \le OPT + 2\sqrt{T\log_2 n}.
+$$
+Dividing by $T$ gives
+$$
+\frac{\mathbb{E}[M]}{T} \le \frac{OPT}{T} + 2\sqrt{\frac{\log_2 n}{T}}\xrightarrow[T\to\infty]{}\frac{OPT}{T}.
+$$
+Hence when $OPT=o(T)$ the algorithm is "no-regret" — average regret vanishes as $T\to\infty$.
+
+***
+
+### Hedge
+*a special case of Multiplicative Weights Update*
+
+`Losses: `$\ell_i^{(t)} \in [0,1] $ <br>
+`Prediction: discrete`
+
+Define
+
+$$
+x_i^{(t)}=\frac{w_i^{(t)}}{W^{(t)}},\qquad W^{(t)}=\sum_{j=1}^n w_j^{(t)}.
+$$
+
+Per-round expected loss:
+$$
+L_t=\sum_{i=1}^n x_i^{(t)}\ell_i^{(t)}.
+$$
+
+Total expected loss:
+$$
+L=\sum_{t=1}^T L_t.
+$$
+
+
+For $\epsilon \in(0,\tfrac12]$:
+
+$$
+w_i^{(t+1)}=w_i^{(t)}(1-\epsilon)^{\ell_i^{(t)}}.
+$$
+
+Let
+$$
+id := \arg\min_{i} \sum_{t=1}^T \ell_i^{(t)},\qquad
+L^* := \sum_{t=1}^T \ell_{id}^{(t)}.
+$$
+
+**Lower bound (best expert)**
+
+$$
+W^{(T+1)} \ge w_{i^*}^{(T+1)} = (1-\epsilon)^{L^*}.
+$$
+
+**Upper bound (from expected loss)**
+
+> **Lemma (Bernoulli):**
+>
+> $$(1+x)^z \le 1 + xz \quad (x \ge -1,\ z\in(0,1)).$$
+
+Hence
+
+$$
+W^{(t+1)} = \sum_{i=1}^n w_i^{(t)}(1-\epsilon)^{\ell_i^{(t)}} \le \sum_{i=1}^n w_i^{(t)}(1-\epsilon\,\ell_i^{(t)}) = W^{(t)}(1-\epsilon L_t).
+$$
+
+Iterating gives
+
+$$
+W^{(T+1)} \le W^{(1)}\prod_{t=1}^T (1-\epsilon L_t) = n\prod_{t=1}^T(1-\epsilon L_t).
+$$
+
+Combining the two bounds yields
+
+$$
+(1-\epsilon)^{L^*} \le n\prod_{t=1}^T(1-\epsilon L_t).
+$$
+
+Taking natural logarithms:
+
+$$
+L^*\ln(1-\epsilon) \le \ln n + \sum_{t=1}^T \ln(1-\epsilon L_t).
+$$
+
+Using $\ln(1-z) \le -z$ and $\ln(1-z) \ge -z - z^2$ for small $z$, we obtain
+
+$$
+L^*(-\epsilon - \epsilon^2) \le \ln n - \epsilon \sum_{t=1}^T L_t.
+$$
+
+Rearranging (with $L=\sum_{t=1}^T L_t$):
+
+$$
+L - L^* \le \frac{\ln n}{\epsilon } + \epsilon L^*.
+$$
+
+Since $L^* \le T$ , this implies
+
+$$
+L - L^* \le \frac{\ln n}{\epsilon} + \epsilon T.
+$$
+
+Optimizing $\epsilon = \sqrt{\dfrac{\ln n}{T}}$ gives
+
+$$
+R := L - L^* \le 2\sqrt{T\ln n}.
+$$
 
