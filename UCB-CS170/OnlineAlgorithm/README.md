@@ -109,14 +109,17 @@ W^{(T+1)} \le n\left(1-\tfrac{\epsilon}{2}\right)^M
 $$
 
 Let $OPT$ denote the minimal number of mistakes made by any expert. Let that expert be $E_{id}$. Then its weight at time $t$ satisfies
+
 $$
 w_{id}^{(t)} \ge (1-\epsilon)^{OPT},\quad \forall t.
 $$
 
-Hence
+Hence,
+
 $$
 W^{(t)} \ge w_{id}^{(t)} \ge (1-\epsilon)^{OPT},\quad \forall t.
 $$
+
 > **Note :**<br>In Weighted-Majority-With-$\epsilon$ algo, <br>we don't assume there is an expert who makes $\le m$ mistakes, and we don't know who is $E_{id}$ in advance —— it's just hindsight<br>
 
 At time $T+1$ we get
