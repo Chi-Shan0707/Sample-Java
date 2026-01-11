@@ -185,9 +185,9 @@ We can construct $n=3$
 | 5   | 0                   | 2             | 4/3           | 5/3           | Expert2      | ❌       |
 | 6   | 1                   | 2             | 7/3           | 5/3           | Expert3      | ❌       |
 
-- **Algorithm total mistakes**: $M \approx T$  
-- **Optimal expert mistakes**: $L^* \approx \frac{T}{3}$ (each expert makes mistakes in their turn)  
-- **Regret**: $R \approx T - \frac{T}{3} = \frac{2}{3}T \geq \left(1 - \frac{1}{n}\right)T$
+- Algorithm total mistakes: $M \approx T$  
+- Optimal expert mistakes: $L^* \approx \frac{T}{3}$ (each expert makes mistakes in their turn)  
+- Regret: $R \approx T - \frac{T}{3} = \frac{2}{3}T \geq \left(1 - \frac{1}{n}\right)T$
 
 4. For **scenario 4**, it's easy to make $R \ge log_2(n)$.
 5. For **scenario 5**, 
@@ -210,6 +210,7 @@ We can construct $n=2$ $\epsilon = \frac{1}{2}$
 - **Algorithm total mistakes**: $M = 5$  
 - **Optimal expert (Expert 1) mistakes**: $L^* = 2$ (errors at $t=2,4$)  
 - **Regret**: $R = M - L^* = 5 - 2 = 3 $  
+
 
 > Theorem:<br> Any deterministic algorithm can't beat 2!
 
