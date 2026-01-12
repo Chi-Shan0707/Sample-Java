@@ -224,6 +224,7 @@ $$
 
 ### Improve by Randomizing
 
+> Remark : randomness foils adversarial choices of losses.
 
 **Randomized Weighted Majority (w/ parameter $\epsilon$)**
 
@@ -306,7 +307,7 @@ $$
 Hence
 
 $$
-W^{(t+1)} = \sum_{i=1}^n w_i^{(t)}(1-\epsilon)^{\ell_i^{(t)}} \le \sum_{i=1}^n w_i^{(t)}(1-\epsilon\,\ell_i^{(t)}) = W^{(t)}(1-\epsilon L_t).
+W^{(t+1)} = \sum_{i=1}^n w_i^{(t)}(1-\epsilon)^{\ell_i^{(t)}} \le \sum_{i=1}^n w_i^{(t)}(1-\epsilon\,\ell_i^{(t)}) = W^{(t)}-\epsilon\sum_{i=1}^n w_i^{(t)}l_i^{(t)}=W^{(t)}(1-\epsilon L_t).
 $$
 
 Iterating gives
@@ -345,7 +346,9 @@ $$
 L - L^* \le \frac{\ln n}{\epsilon} + \epsilon T.
 $$
 
-Optimizing $\epsilon = \sqrt{\dfrac{\ln n}{T}}$ gives
+which means that $R$ per day is almost $\epsilon$ when $T \to +\infty$
+
+If we know $T$ in advance, we can optimize $\epsilon = \sqrt{\dfrac{\ln n}{T}}$, and it gives
 
 $$
 R := L - L^* \le 2\sqrt{T\ln n}.
