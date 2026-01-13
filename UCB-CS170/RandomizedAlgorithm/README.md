@@ -98,7 +98,7 @@ Iff $Dx=0$, then let $ \widetilde{x} := x _{|flip(j)}$ and $ D \widetilde{x} \ne
 
 **Claim.** If the global minimum cut size is $r$, a single run of Karger's algorithm returns that min-cut with probability at least $\dfrac{2}{n(n-1)}$.
 
-**Proof.** At a stage with $k$ vertices remaining, every vertex has degree at least $r$, so the number of edges is at least $k\frac{r}{2}$. Thus the probability that a uniformly random edge crosses the min-cut is at most
+**Proof.** At a stage with $k$ vertices remaining, every vertex has degree at least $r$, so the number of edges is at least $\frac{kr}{2}$. Thus the probability that a uniformly random edge crosses the min-cut is at most
 
 $$
 \frac{r}{ \#edges } \le \frac{r}{k \frac{r}{2}} = \frac{2}{k}.
