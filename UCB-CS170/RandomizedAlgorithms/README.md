@@ -23,6 +23,11 @@
 
 	Example: if $E[X]=10$ then $\Pr[X>100]\le 0.1$.
 
+
+- **Chebyshev Inequality:** <br>
+	$\forall t > 0, \Pr(|X- E[X]|>t) \lt \frac{Var[X]}{t^2}$ <br>
+	Proved by Markove Inequality
+
 ---
 ## Las Vegas
 
