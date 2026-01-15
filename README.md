@@ -6,3 +6,5 @@
 
 
 ---
+Output is good is not enough.
+My algo can work well with high probability!

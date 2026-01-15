@@ -51,5 +51,24 @@ $$
 E[2^{X_{n+1}}] = \sum_{j=0}^{\infty} \Pr (X_n =j) \cdot E[2^{X_{n+1}}| X_n =j] =\sum_{j=0}^{\infty} \Pr (X_n =j) \cdot [\dfrac{1}{2^j} \cdot 2^{j+1} +(1-\dfrac{1}{2^j} ) \cdot 2^j ] \\= \sum_{j=0}^{\infty} \Pr (X_n =j) +\sum_{j=0}^{\infty} \Pr (X_n =j) \cdot 2^{j} =  1+ E[2^{X_n}]
 $$
 
-Output is good is not enough.
-My algo can work well with high probability!
+We care about $ Y := 2^{X} $
+We know $E[Y] = n+1 $<br>
+$Var[Y]=E[{Y^2}]- (E[Y])^2 $
+> **Claim**:<br>
+> $E[2^{2X}]= \dfrac{3}{2} \cdot n^2 + \dfrac{3}{2} \cdot n + 1 $
+
+
+`Fact 1`<br>
+If $A,B$ independent, then $Var[A+B]=Var[A]+Var[B]$<br>
+`Fact 2`<br>$
+Var[aB]=a^2 Var[B]$
+
+
+
+## Problem 2: Distinct Elements
+> Input a stream of items,$i_1,\cdots,i_n \in \{1,\cdots,n\} $ ; return $|\{1,\cdots,n$|$
+
+
+
+### HyperLogLog
+### bit vectore
