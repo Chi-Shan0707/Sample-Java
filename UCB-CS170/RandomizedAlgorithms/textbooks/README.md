@@ -132,7 +132,7 @@ $$E[X] = \sum_{i=1}^\infty (1 - p)^{i-1} = \frac{1}{1 - (1 - p)} = \frac{1}{p}.$
 
 ### 2.4.1. Example: Coupon Collector's Problem
 
-**Problem:** In the coupon collector's problem, we have $n$ distinct coupons, and we collect coupons one by one, each time choosing a coupon uniformly at random from the $n$ types. The problem is to find the expected number of coupons needed to collect at least one of each type.
+**Problem:** In the coupon collector's problem, we have $n$ distinct coupons, and we collect coupons one by one, each time buying a cereal box which always at random contains a type of coupon from the $n$ types. The problem is to find the expected number of cereal boxes needed to buy at least one of each type.
 
 **Solution:** Let $T$ be the number of coupons collected until all $n$ types are obtained. The expected value $E[T]$ can be computed as follows:
 
@@ -140,4 +140,4 @@ The time to collect the first new coupon after having $k$ distinct coupons is ge
 
 $$E[T] = \sum_{k=1}^n \frac{n}{n-k+1} = n \sum_{k=1}^n \frac{1}{k} = n H_n \approx n \ln n,$$
 
-where $H_n$ is the $n$th harmonic number.
+where $H_n$ is the $n$ th harmonic number.
