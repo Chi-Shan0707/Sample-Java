@@ -1,8 +1,7 @@
 
 # Complexity Calculation
 
-## Basics (models, time and space)
-
+## Basics 
 This section gives concise, mathematically precise foundations for algorithmic complexity. We use a standard deterministic RAM model: basic arithmetic and memory access cost $O(1)$.
 
 - Time complexity: number of basic steps as a function of input size $n$.
@@ -23,7 +22,7 @@ These definitions hide constant factors and lower-order terms; they describe gro
 - Induction (substitution): assume a bound for smaller sizes and prove it holds for $n$.
 - Recurrence solving: use iteration (unrolling), recursion-tree, or Master Theorem (below).
 
-## Master Theorem (divide-and-conquer recurrences)
+## Master Theorem 
 
 Consider recurrences of the form
 
@@ -46,6 +45,20 @@ Use these cases to get tight bounds for many divide-and-conquer algorithms.
 
 Recurrence: $T(n)=2T(n/2)+\Theta(n)$. Here $a=2,b=2,\alpha=1$ and $f(n)=\Theta(n)=\Theta(n^{\alpha})$. By Master Case 2 with $k=0$,  
 $T(n)=\Theta(n\log n).$
+
+## Examples: Fast multiplication algorithms
+
+- **Karatsuba integer multiplication.** Split each $n$-digit number into two halves and use three recursive multiplications (plus linear-time additions). The recurrence
+  $\displaystyle T(n)=3T\left(\frac{n}{2}\right)+\Theta(n)$
+  gives by the Master Theorem
+  $\displaystyle T(n)=\Theta\big(n^{\log_2 3}\big)\approx\Theta(n^{1.585})$.
+
+- **Strassen's matrix multiplication.** For $n\times n$ matrices, divide into $2\times2$ blocks; the naive block recursion uses 8 submatrix multiplications. Strassen found a way to compute the product with only 7 multiplications (and additional additions), leading to
+  $\displaystyle T(n)=7T\left(\frac{n}{2}\right)+\Theta(n^2)$
+  and therefore
+  $\displaystyle T(n)=\Theta\big(n^{\log_2 7}\big)\approx\Theta(n^{2.807})$.
+
+Both are classic divide-and-conquer speedups (with practical tradeoffs from constants and numerical considerations).
 
 ## Amortized analysis (brief)
 
