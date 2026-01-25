@@ -17,7 +17,7 @@
 
 	For any nonnegative random variable $X$ and any $t>0$,
 
-	$Pr[X > t] \le \dfrac{E[X]}{t}$.
+	$\Pr[X > t] \le \dfrac{E[X]}{t}$.
 
 	Proof (sketch): since $X \ge t\cdot 1_{\{X>t\}}$, take expectations to get $E[X]\ge t\Pr[X>t]$.
 
@@ -25,15 +25,15 @@
 
 
 - **Chebyshev Inequality:** <br>
-	$\forall t > 0, \Pr(|X- E[X]|>t) \lt \frac{Var[X]}{t^2}$ <br>
-	Proved by Markove Inequality
+	$\forall t>0,\ \Pr\big(|X-\mathbb{E}[X]|>t\big) < \displaystyle\frac{\operatorname{Var}(X)}{t^2}$ <br>
+	Proved by Markov Inequality
 
 ---
 ## Las Vegas
 
 ### Expected Runtime of Quick Sort
 > Insight<br>
-> 1. Runtime is proportional to $\Sigma Comparisons$ 
+> 1. Runtime is proportional to the total number of comparisons (i.e., $\Sigma$ comparisons).
 > 2. Never compare A[i] and A[j] more than once
 
 
@@ -43,7 +43,7 @@ $$
 X_{i,j} = \begin{cases}
 1, & \text{if the $i$-th smallest element has been compared to the $j$-th smallest},\\
 0, & \text{otherwise.}
-\end{cases}\quad\text{for } i \lt j.
+\end{cases}\quad\text{for } i < j.
 $$
 
 **Proof.** Let $C$ be the total number of comparisons. Using the indicators $X_{i,j}$ we have
@@ -51,7 +51,7 @@ $$
 C = \sum_{1\le i<j\le n} X_{i,j},\qquad
 E[C] = \sum_{1\le i<j\le n} \Pr(X_{i,j}=1).
 $$
-First, consider the divide-and-conquer process: the segement we sort will finally hold only one element, which means that **for fixed $i \lt j$, they will finally be separated.**<br> At the certain round that **separates $i,j$,the pivot has to be chosen from the set $\{i,\dots,j\}$**. And notice that **when $i,j$ is compared, then they must become separated.** Together, we can conclude that:<br>
+First, consider the divide-and-conquer process: the segment we sort will finally hold only one element, which means that **for fixed $i < j$, they will finally be separated.**<br> At the round that **separates $i,j$, the pivot has to be chosen from the set $\{i,\dots,j\}$**. And notice that **when $i,j$ are compared, then they must become separated.** Together, we can conclude that:<br>
 $$
 \Pr(X_{i,j}=1)=\frac{2}{j-i+1}.
 $$
@@ -62,6 +62,9 @@ $$
 Hence $E[C]=O(n\log n)$ (in particular $E[C]\lesssim 2n\ln n$).
 
 
+
+> **Theorem.** Suppose that, whenever a pivot is chosen for Quicksort, the first element of the sublist is chosen. If the input is chosen uniformly at random from all possible permutations of the values, then the expected number of comparisons made by Deterministic Quicksort is $2n\ln n + O(n)$.<br>
+> **Proof.** The proof is essentially the same as for Random Quicksort. Again, $y_i$ and $y_j$ are compared if and only if either $y_i$ or $y_j$ is the first pivot selected by Quicksort from the set $Y^{ij}$. Since the order of elements in each sublist is the same as in the original list, the first pivot selected from the set $Y^{ij}$ is just the first element from $Y^{ij}$ in the input list; and since all possible permutations of the input values are equally likely, every element in $Y^{ij}$ is equally likely to be first. From this, linearity of expectation gives the same expression for $E[X]$.
 ***
 <br>
 
@@ -75,20 +78,20 @@ Hence $E[C]=O(n\log n)$ (in particular $E[C]\lesssim 2n\ln n$).
 ### Freivald's Algorithm: Verifying Matrix-Matrix Mult
 
 > **Desc** :<br>
-> Given $A,B,C \in \R^{n \times n} $ <br>
-> Question: Does $A \times B = C $
+> Given $A,B,C \in \mathbb{R}^{n \times n}$, <br>
+> Question: Does $A \times B = C$?
 
 > **Steps** :<br>
 > 1. Pick $X_1,\dots,X_t \in \{0,1\}^n $ independently, uniformly at random
-> 2. for(const auto &x : X ){ if( $ABx \neq Cx $)return false; }
+> 2. for(const auto &x : X ){ if( $ABx \neq Cx$ ) return false; }
 
 > **Claim**：<br>
 > if $AB \neq C$, then $\Pr(ABx = Cx) \le \frac{1}{2}$
 
 **Proof**:<br>
-Define $D:=AB-C,D \neq O$<br>
-Hence, $ \exist i,j , s.t. \text{ } D_{i,j} \neq 0 $<br>
-Iff $Dx=0$, then let $ \widetilde{x} := x _{|flip(j)}$ and $ D \widetilde{x} \neq 0$
+Define $D := AB - C$, so $D \neq 0$.<br>
+Hence, there exist indices $i,j$ such that $D_{i,j} \neq 0$.<br>
+If $Dx=0$, then let $\widetilde{x} := x_{\text{flip}(j)}$; one can check that $D\widetilde{x} \neq 0$.
 
 
 ### Karger's Contraction Algorithm — Find Global Min-Cut
@@ -106,7 +109,7 @@ Iff $Dx=0$, then let $ \widetilde{x} := x _{|flip(j)}$ and $ D \widetilde{x} \ne
 **Proof.** At a stage with $k$ vertices remaining, every vertex has degree at least $r$, so the number of edges is at least $\frac{kr}{2}$. Thus the probability that a uniformly random edge crosses the min-cut is at most
 
 $$
-\frac{r}{ \#edges } \le \frac{r}{k \frac{r}{2}} = \frac{2}{k}.
+\frac{r}{ \#\text{edges} } \le \frac{r}{k \frac{r}{2}} = \frac{2}{k}.
 $$
 
 Hence the probability we avoid contracting a min-cut edge at this step is at least $1-\tfrac{2}{k}=(k-2)/k$. Multiplying over the contraction steps from $k=n,n-1,\dots,3$ we get

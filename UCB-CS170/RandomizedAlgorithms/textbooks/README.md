@@ -141,3 +141,12 @@ The time to collect the first new coupon after having $k$ distinct coupons is ge
 $$E[T] = \sum_{k=1}^n \frac{n}{n-k+1} = n \sum_{k=1}^n \frac{1}{k} = n H_n \approx n \ln n,$$
 
 where $H_n$ is the $n$ th harmonic number.
+
+
+## 2.5. Application: The Expected Run-Time of Quicksort
+
+
+**Theorem 2.12** :<br>
+ Suppose that, whenever a pivot is chosen for Quicksort, the first element of the sublist is chosen. If the input is chosen uniformly at random from all possible permutations of the values, then the expected number of comparisons made by Deterministic Quicksort is $2n\ln n + O(n)$.<br>
+**Proof.** :<br>
+The proof is essentially the same as for Random Quicksort. Again, $y_i$ and $y_j$ are compared if and only if either $y_i$ or $y_j$ is the first pivot selected by Quicksort from the set $Y^{ij}$. Since the order of elements in each sublist is the same as in the original list, the first pivot selected from the set $Y^{ij}$ is just the first element from $Y^{ij}$ in the input list; and since all possible permutations of the input values are equally likely, every element in $Y^{ij}$ is equally likely to be first. From this, linearity of expectation gives the same expression for $E[X]$.
