@@ -53,10 +53,22 @@ $T(n)=\Theta(n\log n).$
   gives by the Master Theorem
   $\displaystyle T(n)=\Theta\big(n^{\log_2 3}\big)\approx\Theta(n^{1.585})$.
 
+  *Example.* $1234\times5678$: split $1234=12\cdot10^2+34$, $5678=56\cdot10^2+78$. Compute
+  $z_0=34\times78=2652$, $z_2=12\times56=672$,
+  $z_1=(12+34)(56+78)-z_2-z_0=46\times134-672-2652=2840$. Thus
+  $1234\times5678=672\cdot10^4+2840\cdot10^2+2652=7006652$.
+
 - **Strassen's matrix multiplication.** For $n\times n$ matrices, divide into $2\times2$ blocks; the naive block recursion uses 8 submatrix multiplications. Strassen found a way to compute the product with only 7 multiplications (and additional additions), leading to
   $\displaystyle T(n)=7T\left(\frac{n}{2}\right)+\Theta(n^2)$
   and therefore
   $\displaystyle T(n)=\Theta\big(n^{\log_2 7}\big)\approx\Theta(n^{2.807})$.
+
+  *Example.* Multiply
+  $A=\begin{pmatrix}1&2\\[2pt]3&4\end{pmatrix}$ and $B=\begin{pmatrix}5&6\\[2pt]7&8\end{pmatrix}$. Strassen's seven products:
+  $M_1=(a+d)(e+h)=65$, $M_2=(c+d)e=35$, $M_3=a(f-h)=-2$, $M_4=d(g-e)=8$, $M_5=(a+b)h=24$, $M_6=(c-a)(e+f)=22$, $M_7=(b-d)(g+h)=-30$.
+  Then
+  $C_{11}=M_1+M_4-M_5+M_7=19$, $C_{12}=M_3+M_5=22$, $C_{21}=M_2+M_4=43$, $C_{22}=M_1-M_2+M_3+M_6=50$,
+  giving $AB=\begin{pmatrix}19&22\\[2pt]43&50\end{pmatrix}$.
 
 Both are classic divide-and-conquer speedups (with practical tradeoffs from constants and numerical considerations).
 
