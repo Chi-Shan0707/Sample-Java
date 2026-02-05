@@ -271,18 +271,20 @@ x_i^{(t)}=\frac{w_i^{(t)}}{W^{(t)}},\qquad W^{(t)}=\sum_{j=1}^n w_j^{(t)}.
 $$
 
 Per-round expected loss:
+<br>
 $$
 L_t=\sum_{i=1}^n x_i^{(t)}\ell_i^{(t)}.
 $$
 
 Total expected loss:
+<br>
 $$
 L=\sum_{t=1}^T L_t.
 $$
 
 
 For $\epsilon \in(0,\tfrac12]$:
-
+<br>
 $$
 w_i^{(t+1)}=w_i^{(t)}(1-\epsilon)^{\ell_i^{(t)}}.
 $$
@@ -294,6 +296,7 @@ L^* := \sum_{t=1}^T \ell_{id}^{(t)}.
 $$
 
 **Lower bound (best expert)**
+<br>
 $$
 W^{(T+1)} \ge w_{id}^{(T+1)} = (1-\epsilon)^{L^*}.
 $$
