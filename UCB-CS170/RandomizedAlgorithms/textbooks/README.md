@@ -150,3 +150,115 @@ where $H_n$ is the $n$ th harmonic number.
  Suppose that, whenever a pivot is chosen for Quicksort, the first element of the sublist is chosen. If the input is chosen uniformly at random from all possible permutations of the values, then the expected number of comparisons made by Deterministic Quicksort is $2n\ln n + O(n)$.<br>
 **Proof.** :<br>
 The proof is essentially the same as for Random Quicksort. Again, $y_i$ and $y_j$ are compared if and only if either $y_i$ or $y_j$ is the first pivot selected by Quicksort from the set $Y^{ij}$. Since the order of elements in each sublist is the same as in the original list, the first pivot selected from the set $Y^{ij}$ is just the first element from $Y^{ij}$ in the input list; and since all possible permutations of the input values are equally likely, every element in $Y^{ij}$ is equally likely to be first. From this, linearity of expectation gives the same expression for $E[X]$.
+
+# Chapter Three: Moments and Deviations
+
+
+## 3.3. Chebyshev’s Inequality
+
+**Theorem 3.6 (Chebyshev’s Inequality):**
+
+
+
+
+For any random variable  and any ,
+
+
+**Proof:**
+
+
+
+
+The inequality is derived by applying **Markov's Inequality** to the random variable .
+Since  is non-negative:
+
+
+**Corollary 3.7:**
+
+
+
+
+Let . For any :
+
+
+---
+
+### 3.3.1. Example: Coupon Collector’s Problem
+
+**Goal:** Apply Chebyshev's inequality to bound the tail probability of the time $X$ to collect $n$ coupons.
+Recall $X = \sum_{i=1}^n X_i$, where $X_i \sim \mathrm{Geom}(p_i)$ and $p_i = \dfrac{n-i+1}{n}$.
+
+To use Chebyshev, we first need $\mathrm{Var}[X]$. Since the $X_i$ are independent:
+
+$$\mathrm{Var}[X] = \sum_{i=1}^n \mathrm{Var}[X_i].$$
+
+
+#### **Interlude: Variance of a Geometric Random Variable**
+
+**Lemma 3.8:** For $Y\sim\mathrm{Geom}(p)$,
+
+$$\mathrm{Var}[Y] = \frac{1-p}{p^2}.$$
+
+We derive  using two methods:
+
+**Method 1: The Calculus Trick (Generating Functions)**
+
+
+
+
+Start with the geometric series sum $\sum_{i=0}^{\infty} x^i = \dfrac{1}{1-x}$. Differentiating twice and manipulating the series yields:
+
+$$\sum_{i=1}^{\infty} i^2 x^i = \frac{x^2 + x}{(1-x)^3}$$
+
+
+
+Substituting $x=1-p$ we get $E[Y^2] = \dfrac{2-p}{p^2}$, which leads to $\mathrm{Var}[Y] = \dfrac{1-p}{p^2}$.
+
+**Method 2: Conditional Expectation**
+
+
+
+
+Using the **memoryless property**, let $Z$ denote the remaining steps after the first trial (so $Z\sim Y$). Conditioning on the first trial yields
+
+$$E[Y^2] = p\cdot 1^2 + (1-p)E[(1+Z)^2] = p + (1-p)\big(1 + 2E[Z] + E[Z^2]\big).$$
+
+
+
+Since $E[Z]=E[Y]=\dfrac{1}{p}$ and $E[Z^2]=E[Y^2]$, we get
+
+$$E[Y^2] = p + (1-p)\left(1 + \frac{2}{p} + E[Y^2]\right).$$
+
+Solving for $E[Y^2]$ gives $E[Y^2]=\dfrac{2-p}{p^2}$ and therefore $\mathrm{Var}[Y]=\dfrac{1-p}{p^2}.$
+
+#### **Analysis of Variance for Coupon Collector**
+
+Using the bound $\mathrm{Var}[X_i] = \dfrac{1-p_i}{p_i^2} \le \dfrac{1}{p_i^2}$, we have
+
+$$\mathrm{Var}[X] = \sum_{i=1}^n \mathrm{Var}[X_i] \le \sum_{i=1}^n \frac{1}{p_i^2} = \sum_{i=1}^n \frac{n^2}{(n-i+1)^2} = n^2 \sum_{j=1}^n \frac{1}{j^2}.$$
+
+
+**Mathematical Identity (The Basel Problem):**
+
+
+
+
+We use the infinite sum limit (without proof):
+
+$$\sum_{j=1}^{\infty} \frac{1}{j^2} = \frac{\pi^2}{6}.$$
+
+
+
+Thus,
+
+$$\mathrm{Var}[X] \le \frac{\pi^2 n^2}{6}.$$
+
+**Result:**
+
+
+
+
+Applying Chebyshev’s inequality with deviation  (mean):
+
+
+> **Comparison:** Chebyshev gives a tighter bound than Markov (which gave constant ), but a loose Union Bound argument can actually show the probability is .
