@@ -122,3 +122,17 @@ To boost success probability to $1-\delta$, run the algorithm independently $T$ 
 
 ***
 [Record](https://www.bilibili.com/video/BV1mu1CYRESn?spm_id_from=333.788.videopod.sections&vd_source=de61571668b4f9b7a6cbfb72c2ad3a42&p=22)
+
+
+**Definition 7.2:**
+<br>
+
+ State j is accessible from state i if, for some integer n ≥ 0, P
+n
+i,j > 0. If
+two states i and j are accessible from each other, we say that they communicate and wewrite i ↔ j.
+In the graph representation of a chain, i ↔ j if and only if there are directed pathsconnecting i to j and j to i.
+The communicating relation defines an equivalence relation. That is, the communi-cating relation is
+1. reflexive – for any state i, i ↔ i;
+2. symmetric – i f i ↔ j then j ↔ i; and
+3. transitive – if i ↔ j and j ↔ k, then i ↔ k.
